@@ -6,15 +6,24 @@
             position: absolute;
             color: #9acd32;
             font-size: 20px;
+            letter-spacing: 4px;
+
             font-weight: bold;
             font-family: 'Times', Arial, Helvetica, sans-serif;
             z-index: 0;
+            padding: 10px;
             animation: 20s sleep alternate infinite;
             text-align: center;
             -webkit-text-stroke: 5px rgb(53, 39, 21);
             paint-order: stroke fill;
 
+            transition: all 1s ease;
 
+        }
+
+        .word:hover {
+            font-size: 12px !important;
+            transition: all 1s ease !important;
         }
 
         @keyframes mossGrow {
@@ -29,13 +38,11 @@
 
         @keyframes sleep {
             from {
-                letter-spacing: 8px;
-                font-size: 20px;
+                translate: 0px 0px;
             }
 
             to {
-                letter-spacing: 2px;
-                font-size: 25px;
+                translate: 40px 0px;
 
             }
         }
