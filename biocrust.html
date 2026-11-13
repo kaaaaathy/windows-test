@@ -4,50 +4,118 @@
     <style>
         .word {
             position: absolute;
-            color: green;
-            font-family: Arial, Helvetica, sans-serif;
+            color: #9acd32;
+            letter-spacing: 2px;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: 'inconsolata', Arial, Helvetica, sans-serif;
+            z-index: 0;
+            animation: 20s sleep alternate infinite;
+            text-align: center;
+            /* -webkit-text-stroke: 1px rgb(53, 39, 21); */
+
+
+        }
+
+        @keyframes mossGrow {
+            from {
+                transform: scale(100%);
+            }
+
+            to {
+                transform: scale(150%);
+            }
+        }
+
+        @keyframes sleep {
+            from {
+                letter-spacing: 10px;
+                font-size: 12px;
+            }
+
+            to {
+                letter-spacing: 2px;
+                font-size: 16px;
+
+            }
         }
 
         body {
             background-color: burlywood;
-
+            background-image: url('crust.png');
+            background-size: cover;
+            overflow-y: hidden;
         }
 
-        .checkbox-native {
-            accent-color: green;
-        }
 
-        input[type="checkbox"] {}
 
-        input[type="checkbox"]:checked {
-            background-color: green;
-        }
 
         .moss {
-            color: yellowgreen;
+            width: 40px;
+            height: 40px;
+            background-size: contain;
             position: absolute;
-            font-size: 30pt;
+            background-repeat: no-repeat;
+            z-index: -1;
+            mix-blend-mode: luminosity;
+            text-align: center;
+            animation: 10s mossGrow alternate infinite;
 
         }
-    </style>
+
+        #elements {
+            color: white;
+            display: flex;
+            width: 300px;
+            height: 40px;
+            flex-flow: row nowrap;
+            align-items: center;
+        }
+
+        span {
+            padding-left: 20px;
+        }
+
+        h1 {
+            line-height: 10px;
+        }
+
+        #s {
+            color: yellowgreen;
+        }
     </style>
 </head>
 
 <body>
-    <h1>biocrust</h1>
-    <input type="range" min="0" max="100" value="50" step="1" id="x">
-    <input type="range" min="0" max="100" value="50" step="1" id="y">
-    <input type="range" min="0" max="100" value="50" step="1" id="z">
+    <section id="elements">
+        <h1>biocrust</h1>
 
+        <span>wind </span><input type="range" min="0" max="100" value="50" step="1" id="x">
+        <span>water </span> <input type="range" min="40" max="100" value="60" step="1" id="y">
+        <span>sun </span> <input type="range" min="0" max="100" value="50" step="1" id="z">
 
+    </section>
 
-
+    <svg id="s" viewBox="0 0 600 400" style="width:100%;height:100%;display:block;cursor:pointer"></svg>
 </body>
 <script type="text/javascript">
 
-    let frame = document.getElementById('window');
+    let mosses = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png"];
+    let wind = document.getElementById('x');
+    let water = document.getElementById('y');
+    let sun = document.getElementById('z');
+    let offset = 50;
 
-    let x = 0; //random number for Bird URL
+    wind.addEventListener("input", (event) => {
+        changeWind(event.target.value);
+    });
+    water.addEventListener("input", (event) => {
+        changeWater(event.target.value);
+    });
+    sun.addEventListener("input", (event) => {
+        changeSun(event.target.value);
+
+    });
 
 
     let text = `another world there 
@@ -77,27 +145,91 @@ loneliness with no exact locus, isn’t absence either, some kind of insistence 
 `;
     let words = text.split(' ');
 
+    // angela(words);
+    function angela(text) {
+        M = Math
+        s = document.getElementById("s"), r = _ => s.viewBox.baseVal.width = innerWidth, s.viewBox.baseVal.height = innerHeight; r(); onresize = r
+        s.innerHTML = `<path id=p fill=none stroke=#8d5524 stroke-width=4 stroke-linecap=round stroke-linejoin=round stroke-dasharray="3 9"/><text style="font-size:40px;font-weight:bold;fill:#9acd32;font-family:arial,letter-spacing:.7px;stroke:#64491ad6;stroke-width:7;paint-order:stroke fill"><textPath id=t href=#p startOffset=3%></textPath></text>`;
+        p = document.getElementById("p"); t = document.getElementById("t");
+        E = words;
+        C = 500; D = 400; let P, x, y, a, n, c;
+        i = n => { for (j = 2; j * j <= n; j++)if (n % j == 0) return 0; return 1 };
+        N = () => { while (!i(n)) n++; return n++ };
+        h = () => N() + " " + E[c++ % E.length] + " ";
+        S = q => { if (q.length < 2) return ""; if (q.length == 2) return `M${q[0].x} ${q[0].y}L${q[1].x} ${q[1].y}`; d = `M${q[0].x} ${q[0].y}`; for (k = 0; k < q.length - 1; k++) { o = q[k ? k - 1 : k]; m = q[k]; r = q[k + 1]; u = q[k + 2 < q.length ? k + 2 : k + 1]; d += `C${m.x + (r.x - o.x) / 6} ${m.y + (r.y - o.y) / 6},${r.x - (u.x - m.x) / 6} ${r.y - (u.y - m.y) / 6},${r.x} ${r.y}` } return d };
+        reset = () => { P = []; t.innerHTML = ""; p.setAttribute("d", ""); x = 180; y = 400; a = .5; n = 2; c = 0 }
+        tick = () => {
+            e = M.max(0, M.max((60 - M.min(x, 1000 - x)) / 120, (60 - M.min(y, 800 - y)) / 120));
+            f = M.atan2(D - y, C - x);
+            g = .004 + e * .15;
+            b = f - a; while (b > M.PI) b -= 6.28; while (b < -M.PI) b += 6.28;
+            a += b * g + (M.random() - .5) * .35;
+            x += M.cos(a) * 4;
+            y += M.sin(a) * 4;
+            x = M.max(18, M.min(982, x));
+            y = M.max(18, M.min(782, y));
+            P.push({ x, y });
+            if (P.length % 3 === 0) {
+                p.setAttribute("d", S(P));
+                if (P.length % 9 == 0) t.insertAdjacentHTML("beforeend", `<tspan>${h()}</tspan>`);
+            }
+            if (P.length < 3000) requestAnimationFrame(tick);
+        }
+        s.onclick = () => { reset(); tick() };
+        reset(); tick();
+    }
+    function changeSun() {
+
+    }
+    function changeWind(value) {
+        let words = document.querySelectorAll('.word');
+        words.forEach(word => {
+            word.style.setProperty('transform', 'skew(-' + value / 2 + 'deg)');
+        });
+
+    }
+    function changeWater(value) {
+        let mossDivs = document.querySelectorAll('.moss');
+        mossDivs.forEach(moss => {
+            moss.style.width = value + 'px';
+            moss.style.height = value + 'px';
+
+            moss.style.translate = '-' + value / 2 + 'px ' + '-' + value / 2 + 'px';
+
+        })
+
+    }
+
+    let frame = document.getElementById('window');
+
+
+
+
     function mossDiv() {
         let moss = document.createElement('div');
         moss.classList.add('moss');
         let x = Math.floor(Math.random() * window.innerWidth);
         let y = Math.floor(Math.random() * window.innerHeight);
         moss.style.left = x + 'px';
-        moss.style.top = y + 'px';
+        moss.style.top = y + offset + 'px';
+        let m = Math.floor(Math.random() * mosses.length);
+        let d = Math.floor(Math.random() * 360)
+        moss.style.backgroundImage = 'url("mosses/' + mosses[m] + '")'
+        moss.style.setProperty('transform', 'rotate(' + d + 'deg)');
         return moss;
     }
     function makeMoss(type) {
         let moss = mossDiv();
 
-        if (type.includes('a')) {
-            moss.innerHTML = `###`;
-        }
-        if (type.includes('f')) {
-            moss.innerHTML = `***`;
-        } if (type.includes('s')) {
-            moss.innerHTML = `\\|//`;
+        // if (type.includes('a')) {
+        //     moss.innerHTML = `###`;
+        // }
+        // if (type.includes('f')) {
+        //     moss.innerHTML = `***`;
+        // } if (type.includes('s')) {
+        //     moss.innerHTML = `\\|//`;
 
-        }
+        // }
         document.body.append(moss);
     }
     function animateText() {
@@ -112,7 +244,7 @@ loneliness with no exact locus, isn’t absence either, some kind of insistence 
                 y += window.innerHeight / words.length * 5;
 
                 div.style.left = x + 'px';
-                div.style.top = y + 'px';
+                div.style.top = y + offset + 'px';
                 // div.innerHTML = `<input type="checkbox"></input> ` + word;
 
                 div.innerHTML = word;
