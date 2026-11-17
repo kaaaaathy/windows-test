@@ -101,14 +101,20 @@
             height: 40px;
             flex-flow: row nowrap;
             align-items: center;
+
         }
 
         span {
-            padding-left: 20px;
+            margin: 0px 15px;
+            font-family: monospace;
+
         }
 
         h1 {
             line-height: 10px;
+            font-family: times;
+            margin-right: 20px;
+
         }
 
 
@@ -307,6 +313,7 @@ a desire for wrongness until it’s, well, here.`;
         let moss = document.createElement('img');
         let w = Math.floor(Math.random() * 50) + 30;
         moss.classList.add('moss');
+        moss.classList.add('underground');
 
         moss.style.width = w + 'px';
         moss.style.height = w + 'px';
